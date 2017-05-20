@@ -105,7 +105,6 @@ Creates a Ticker object
 - parameter callback for the function name you want to call
 - parameter interval sets the interval time in ms
 - parameter repeats sets the number of repeats the callback should executed, 0 is endless
-- parameter resolution sets the internal resolution of the Ticker, it can MICROS or MILLIS
 
 **~Tickers()**<br>
 Destructor for Ticker object
