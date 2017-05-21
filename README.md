@@ -7,7 +7,7 @@ The internal resolution is microseconds, this works with intervals up to 70 minu
 
 1. "Download": https://github.com/sstaub/mbedTickers/archive/master.zip the Master branch from GitHub.
 2. Unzip and modify the folder name to "mbedTickers"
-3. Move the modified folder on your Library folder (On your `Libraries` folder inside Sketchbooks or Arduino software).
+3. Move the modified folder in your Library folder (e.g. in your `lib` folder inside PlatformIO).
 
 
 ## How to use
