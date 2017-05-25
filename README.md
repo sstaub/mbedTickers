@@ -1,7 +1,7 @@
 # mbed Tickers Library
 
 The **mbed Tickers Library** allows you to create easily Ticker callbacks, which can call a function in a predetermined interval. You can change the number of repeats of the callbacks, if repeats is 0 the ticker runs in endless mode. Works like a "thread", where a secondary function will run when necessary. The library use no interupts of the hardware timers and works with the ```us_ticker_read()``` function. You are not (really) limited in the number of Tickers.
-The internal resolution is microseconds, this works with intervals up to 70 minutes. The library works similar as the Arduino Ticker library https://github.com/sstaub/Ticker/archive/master.zip and is different to the mbed Ticker / Timer libraries.
+The internal resolution is microseconds, this works with intervals up to 70 minutes. The library works similar as the Arduino Ticker library https://github.com/sstaub/Ticker and is different to the mbed Ticker / Timer libraries.
 
 ## Installation
 
