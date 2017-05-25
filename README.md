@@ -40,7 +40,7 @@ If you use wait_ms(), the Ticker will be ignored! You cannot use delay() command
 
 ## Example
 
-Complete example. Here we created three timers, you can run it and test the result in the Serial monitor and the on board LED.
+Complete example. Here we created four timers, you can run it and test the result in the Serial monitor and the on board LED.
 
 ```
 #include "Tickers.h"
