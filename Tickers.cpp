@@ -1,5 +1,5 @@
 /* Ticker library code is placed under the MIT license
- * Copyright (c) 2017 Stefan Staub
+ * Copyright (c) 2018 Stefan Staub
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -24,107 +24,75 @@
 
 #include "Tickers.h"
 
-Tickers::Tickers() {
-	init(NULL, 0, 0);
-	}
-
-Tickers::Tickers(fptr callback, uint32_t interval, uint16_t repeats) {
-	init(callback, interval, repeats);
+Tickers::Tickers(fptr callback, uint32_t interval, uint16_t repeats, interval_t mode) {
+	if(mode == MILLIS) interval *= 1000;
+	this->interval = interval;
+	this->repeats = repeats;
+	this->callback = callback;
+	enabled = false;
+	lastTime = 0;
+	counts = 0;
 	}
 
 Tickers::~Tickers() {}
 
-void Tickers::init(fptr callback, uint32_t interval, uint16_t repeats) {
-	setInterval(interval);
-	setRepeats(repeats);
-	setCallback(callback);
-	enabled = false;
-	lastTime = 0;
-	counter = 0;
-	}
-
 void Tickers::start() {
-	if (getCallback() == NULL) return;
+	if (callback == NULL) return;
 	lastTime = us_ticker_read();
 	enabled = true;
-	counter = 0;
-	state = RUNNING;
+	counts = 0;
+	status = RUNNING;
 	}
 
 void Tickers::resume() {
-	if (getCallback() == NULL) return;
+	if (callback == NULL) return;
 	lastTime = us_ticker_read() - diffTime;
-	if(state == STOPPED) counter = 0;
+	if(status == STOPPED) counts = 0;
 	enabled = true;
-	state = RUNNING;
+	status = RUNNING;
 	}
 
 void Tickers::stop() {
 	enabled = false;
-	counter = 0;
-	state = STOPPED;
+	counts = 0;
+	status = STOPPED;
 	}
 
 void Tickers::pause() {
 	diffTime = us_ticker_read() - lastTime;
 	enabled = false;
-	state = PAUSED;
+	status = PAUSED;
 	}
 
 void Tickers::update() {
-	if(tick()) call();
+	if(tick()) callback();
 	}
 
 bool Tickers::tick() {
 	if(!enabled)	return false;
-	if ((us_ticker_read() - lastTime) >= _interval) {
+	if ((us_ticker_read() - lastTime) >= interval) {
 		lastTime = us_ticker_read();
-		if(_repeats - counter == 1)
+		if(repeats - counts == 1)
 			{
 			enabled = false;
-			counter++;
+			counts++;
 			}
 		else {
-			counter++;
+			counts++;
 			}
 		return true;
 		}
 	return false;
 	}
 
-void Tickers::setInterval(uint32_t interval) {
-	_interval = interval * 1000;
-	}
-
-void Tickers::setCallback(fptr callback) {
-	call = callback;
-	}
-
-void Tickers::setRepeats(uint16_t repeats) {
-	_repeats = repeats;
-	}
-
-uint32_t Tickers::getElapsedTime() {
-	//return millis() - lastTime;
+uint32_t Tickers::elapsed() {
 	return us_ticker_read() - lastTime;
 	}
 
-status_t Tickers::getState() {
-		return state;
+status_t Tickers::state() {
+		return status;
 		}
 
-uint32_t Tickers::getInterval() {
-	return _interval;
-	}
-
-fptr Tickers::getCallback() {
-	return call;
-	}
-
-uint16_t Tickers::getRepeats() {
-	return _repeats;
-	}
-
-uint16_t Tickers::getRepeatsCounter() {
-	return counter;
+uint32_t Tickers::counter() {
+	return counts;
 	}
