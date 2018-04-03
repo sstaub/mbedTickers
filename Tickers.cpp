@@ -24,9 +24,10 @@
 
 #include "Tickers.h"
 
-Tickers::Tickers(fptr callback, uint32_t interval, uint16_t repeats, interval_t mode) {
-	if(mode == MILLIS) interval *= 1000;
-	this->interval = interval;
+Tickers::Tickers(fptr callback, uint32_t timer, uint16_t repeats, interval_t mode) {
+	if(mode == MILLIS) timer *= 1000;
+	this->mode = mode;
+	this->timer = timer;
 	this->repeats = repeats;
 	this->callback = callback;
 	enabled = false;
@@ -70,7 +71,7 @@ void Tickers::update() {
 
 bool Tickers::tick() {
 	if(!enabled)	return false;
-	if ((us_ticker_read() - lastTime) >= interval) {
+	if ((us_ticker_read() - lastTime) >= timer) {
 		lastTime = us_ticker_read();
 		if(repeats - counts == 1)
 			{
@@ -83,6 +84,11 @@ bool Tickers::tick() {
 		return true;
 		}
 	return false;
+	}
+
+void Tickers::interval(uint32_t timer) {
+	if(mode == MILLIS) timer *= 1000;
+	this->timer = timer;
 	}
 
 uint32_t Tickers::elapsed() {

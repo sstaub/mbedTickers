@@ -10,6 +10,9 @@ The internal resolution is microseconds, this works with intervals up to 70 minu
 - the set and get function are deleted or replaced
 - the resolution of the interval can changed into micro seconds
 
+## New in v3.1
+- added interval function to change time on fly
+
 ## Installation
 
 1. "Download": https://github.com/sstaub/mbedTickers/archive/master.zip the Master branch from GitHub.
@@ -56,6 +59,8 @@ int main() {
     timer3.update();
     timer4.update();
     timer5.update();
+    if(timer4.counter() == 20) timer4.interval(200);
+    if(timer4.counter() == 80) timer4.interval(1000);
     }
   }
 
@@ -91,10 +96,10 @@ STOPPED / RUNNING / PAUSED
 
 ### Constructors / Destructor
 
-**Tickers(fptr callback, uint32_t interval, uint16_t repeats = 0, interval_t mode = MILLIS)**<br>
+**Tickers(fptr callback, uint32_t timer, uint16_t repeats = 0, interval_t mode = MILLIS)**<br>
 Creates a Ticker object
 - parameter callback for the function name you want to call
-- parameter interval set the interval time in ms
+- parameter timer set the interval time in ms
 - parameter repeats set the number of repeats the callback should executed, 0 is endless (default)
 - parameter mode set the interval resolution to MILLIS (default) or MICROS
 
@@ -117,6 +122,9 @@ Stop the Ticker.
 
 **void update()**<br>
 Must to be called in the loop(), it will check the Ticker, and if necessary, will run the callback
+
+**void interval(uint32_t timer)**<br>
+Changes the interval time of the Ticker.
 
 **status_t state()**<br>
 Returns the state of the Ticker.

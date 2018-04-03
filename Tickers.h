@@ -51,7 +51,7 @@ public:
 	 * @param mode interval resolution MILLIS (default) or MICROS
 	 *
 	 */
-	Tickers(fptr callback, uint32_t interval, uint16_t repeats = 0, interval_t mode = MILLIS);
+	Tickers(fptr callback, uint32_t timer, uint16_t repeats = 0, interval_t mode = MILLIS);
 
 	/** destructor for the Ticker object
 	 *
@@ -83,6 +83,13 @@ public:
 	 */
 	void update();
 
+	/**
+	 * @brief set the interval timer
+	 * 
+	 * @param timer interval length in ms or us
+	 */
+	void interval(uint32_t timer);
+
 	/** actual ellapsed time
 	 *
 	 * @returns the elapsed time after the last tick in us
@@ -107,7 +114,8 @@ public:
 private:
 	bool tick();
 	bool enabled;
-	uint32_t interval;
+	uint8_t mode;
+	uint32_t timer;
 	uint16_t repeats;
 	uint32_t counts;
 	status_t status;
