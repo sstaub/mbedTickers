@@ -25,7 +25,7 @@
 #include "Tickers.h"
 
 Tickers::Tickers(fptr callback, uint32_t timer, uint16_t repeats, interval_t mode) {
-	if(mode == MILLIS) timer *= 1000;
+	if (mode == MILLIS) timer *= 1000;
 	this->mode = mode;
 	this->timer = timer;
 	this->repeats = repeats;
@@ -48,7 +48,7 @@ void Tickers::start() {
 void Tickers::resume() {
 	if (callback == NULL) return;
 	lastTime = us_ticker_read() - diffTime;
-	if(status == STOPPED) counts = 0;
+	if (status == STOPPED) counts = 0;
 	enabled = true;
 	status = RUNNING;
 	}
@@ -69,25 +69,8 @@ void Tickers::update() {
 	if(tick()) callback();
 	}
 
-bool Tickers::tick() {
-	if(!enabled)	return false;
-	if ((us_ticker_read() - lastTime) >= timer) {
-		lastTime = us_ticker_read();
-		if(repeats - counts == 1)
-			{
-			enabled = false;
-			counts++;
-			}
-		else {
-			counts++;
-			}
-		return true;
-		}
-	return false;
-	}
-
 void Tickers::interval(uint32_t timer) {
-	if(mode == MILLIS) timer *= 1000;
+	if (mode == MILLIS) timer *= 1000;
 	this->timer = timer;
 	}
 
@@ -96,9 +79,20 @@ uint32_t Tickers::elapsed() {
 	}
 
 status_t Tickers::state() {
-		return status;
-		}
+	return status;
+	}
 
 uint32_t Tickers::counter() {
 	return counts;
+	}
+
+bool Tickers::tick() {
+	if (!enabled)	return false;
+	if ((us_ticker_read() - lastTime) >= timer) {
+		lastTime = us_ticker_read();
+		if (repeats - counts == 1) enabled = false;
+		counts++;	
+		return true;
+		}
+	return false;
 	}

@@ -10,7 +10,7 @@ The internal resolution is microseconds, this works with intervals up to 70 minu
 - the set and get function are deleted or replaced
 - the resolution of the interval can changed into micro seconds
 
-## New in v2.1
+## New in v3.1
 - added interval function to change time on fly
 
 ## Installation
@@ -59,8 +59,8 @@ int main() {
     timer3.update();
     timer4.update();
     timer5.update();
-    if(timer4.counter() == 20) timer4.interval(200);
-    if(timer4.counter() == 80) timer4.interval(1000);
+    if (timer4.counter() == 20) timer4.interval(200);
+    if (timer4.counter() == 80) timer4.interval(1000);
     }
   }
 
