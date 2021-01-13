@@ -10,7 +10,7 @@ The internal resolution is microseconds, this works with intervals up to 70 minu
 - the set and get function are deleted or replaced
 - the resolution of the interval can changed into micro seconds
 
-## New in v3.1
+## New in v2.1
 - added interval function to change time on fly
 
 ## Installation
