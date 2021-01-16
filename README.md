@@ -9,8 +9,6 @@ The internal resolution is microseconds, this works with intervals up to 70 minu
 - you have to declare all parameters in the constructor 
 - the set and get function are deleted or replaced
 - the resolution of the interval can changed into micro seconds
-
-## New in v2.1
 - added interval function to change time on fly
 
 ## Installation
@@ -24,7 +22,7 @@ The internal resolution is microseconds, this works with intervals up to 70 minu
 
 First, include the TickersObject to your project:
 
-```
+```cpp
 #include "mbed.h"
 #include "Tickers.h"
 
@@ -47,7 +45,6 @@ Tickers timer5(printCountUS, 100, 0, MICROS); // interval 100us
 
 
 int main() {
-  wait_ms(2000);
   timer1.start();
   timer2.start();
   timer3.start();
@@ -92,45 +89,173 @@ void printCountUS() {
 ## Documentation
 
 ### States
-STOPPED / RUNNING / PAUSED
 
-### Constructors / Destructor
+```cpp
+enum status_t {
+  STOPPED,
+  RUNNING,
+  PAUSED
+  };
+```
 
-**Tickers(fptr callback, uint32_t timer, uint16_t repeats = 0, interval_t mode = MILLIS)**<br>
+### Constructors
+
+```cpp
+Tickers::Tickers(fptr callback, uint32_t timer, uint16_t repeats, interval_t mode)
+```
+
 Creates a Ticker object
-- parameter callback for the function name you want to call
-- parameter timer set the interval time in ms
-- parameter repeats set the number of repeats the callback should executed, 0 is endless (default)
-- parameter mode set the interval resolution to MILLIS (default) or MICROS
 
-**~Tickers()**<br>
+- **callback** for the function name you want to call
+- **timer** set the interval time in ms or us depending from mode
+- **repeats** set the number of repeats the callback should executed, 0 is endless (default)
+- **mode** set the interval resolution to MILLIS (default) or MICROS
+
+**Example**
+
+```cpp
+Tickers timer(blink, 1000); // calls function blink() every second
+```
+
+### Destructor
+
+```cpp
+Tickers::~Tickers()
+```
 Destructor for Ticker object
 
-### Functions
+## Class Functions
 
-**void start()**<br>
+### Ticker Start
+
+```cpp
+void Tickers::start()
+```
+
 Start the Ticker. Will count the interval from the moment that you start it. If it is paused, it will restart the Ticker.
 
-**void resume()**<br>
+**Example**
+
+```cpp
+timer.start();
+```
+
+### Ticker Resume
+
+```cpp
+void Tickers::resume()
+```
+
 Resume the Ticker. If not started, it will start it. If paused, it will resume it. For example, in a Ticker of 5 seconds, if it was paused in 3 seconds, the resume in continue in 3 seconds. Start will set passed time to 0 and restart until get 5 seconds.
 
-**void pause()**<br>
+**Example**
+
+```cpp
+timer.resume();
+```
+
+### Ticker Pause
+
+```cpp
+void Tickers::pause()
+```
+
 Pause the Ticker, so you can resume it.
 
-**void stop()**<br>
+**Example**
+
+```cpp
+timer.pause();
+```
+
+### Ticker Stop
+
+```cpp
+void Tickers::stop()
+```
+
 Stop the Ticker.
 
-**void update()**<br>
-Must to be called in the loop(), it will check the Ticker, and if necessary, will run the callback
+**Example**
 
-**void interval(uint32_t timer)**<br>
-Changes the interval time of the Ticker.
+```cpp
+timer.stop();
+```
 
-**status_t state()**<br>
+### Ticker Update
+
+```cpp
+void Tickers::update()
+```
+
+Must to be called in the main while() loop, it will check the Ticker, and if necessary, will run the callback
+
+**Example**
+
+```cpp
+while(1) {
+  timer.update();
+1.   }
+```
+
+### Ticker Interval Time
+
+```cpp
+void Tickers::interval(uint32_t timer)
+```
+
+Changes the interval time of the Ticker. Depending from the mode it can millis or micro seconds.
+
+- **timer** set the interval time in ms or us depending from mode
+
+
+**Example**
+
+```cpp
+timer.interval(500); // new interval time
+```
+
+### Ticker State
+
+```cpp
+status_t Tickers::state()
+```
+
 Returns the state of the Ticker.
 
-**uint32_t elapsed()**<br>
+**Example**
+
+```cpp
+status_t status;
+status = timer.state();
+```
+
+### Ticker Elapsed Time
+
+```cpp
+uint32_t Tickers::elapsed()
+```
+
 Returns the time passed since the last tick in us.
 
-**uint32_t counter()**<br>
+**Example**
+
+```cpp
+uint32_t elapse;
+elapse = timer.elapsed();
+```
+
+### Ticker Counter
+
+```cpp
+uint32_t Tickers::counter()
+```
+
 Get the number of executed callbacks.
+
+**Example**
+
+```cpp
+uint32_t count;
+count = timer.counter();
+```

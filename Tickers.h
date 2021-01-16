@@ -30,12 +30,27 @@
 /** Ticker status
  *
  * @param STOPPED default, ticker is stopped
- * @param RUNNIBG ticker is running
+ * @param RUNNING ticker is running
  * @param PAUSED ticker is paused
  *
  */
-enum status_t {STOPPED, RUNNING, PAUSED};
-enum interval_t {MILLIS, MICROS};
+enum status_t {
+	STOPPED,
+	RUNNING,
+	PAUSED
+	};
+
+/** Ticker interval mode
+ *
+ * @param MILLIS default, ticker is stopped
+ * @param MICROS ticker is running
+
+ *
+ */
+enum interval_t {
+	MILLIS,
+	MICROS
+	};
 
 typedef void (*fptr)();
 
