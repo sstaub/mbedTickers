@@ -37,10 +37,10 @@ void printCountUS();
 
 DigitalOut  myled(LED1);
 
-Tickers timer1(printMessage, 0, 1); once, immediately
-Tickers timer2(printCounter, 1000); every second
-Tickers timer3(printCountdown, 1000, countdown); every second, 10 times
-Tickers timer4(blink, 500); every 500ms
+Tickers timer1(printMessage, 0, 1); // once, immediately
+Tickers timer2(printCounter, 1000); // every second
+Tickers timer3(printCountdown, 1000, countdown); // every second, 10 times
+Tickers timer4(blink, 500); // every 500ms
 Tickers timer5(printCountUS, 100, 0, MICROS); // interval 100us
 
 
