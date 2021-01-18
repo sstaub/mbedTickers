@@ -26,6 +26,8 @@
 #define TICKERS_H
 
 #include "mbed.h"
+#include <cstdint>
+#include <functional>
 
 /** Ticker status
  *
@@ -52,7 +54,7 @@ enum interval_t {
 	MICROS
 	};
 
-typedef void (*fptr)();
+using fptr = std::function<void()>;
 
 class Tickers {
 
@@ -99,18 +101,32 @@ public:
 	void update();
 
 	/**
-	 * @brief set the interval timer
+	 * @brief set the interval time
 	 * 
 	 * @param timer interval length in ms or us
 	 */
 	void interval(uint32_t timer);
 
+	/**
+	 * @brief get the interval time
+	 * 
+	 * @returns the interval time
+	 */
+	uint32_t interval();
+
 	/** actual ellapsed time
 	 *
-	 * @returns the elapsed time after the last tick in us
+	 * @returns the elapsed time after the last tick in ms or us depending from mode
 	 *
 	 */
 	uint32_t elapsed();
+
+	/** time remaining to the next tick
+	 *
+	 * @returns the remaining time to the next tick in ms or us depending from mode
+	 *
+	 */
+	uint32_t remaining();
 
 	/** get the state of the ticker
 	 *

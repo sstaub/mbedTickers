@@ -74,8 +74,23 @@ void Tickers::interval(uint32_t timer) {
 	this->timer = timer;
 	}
 
+uint32_t Tickers::interval() {
+	if (mode == MILLIS) return timer / 1000;
+	else return timer;
+	}
+
 uint32_t Tickers::elapsed() {
-	return us_ticker_read() - lastTime;
+	if (mode == MILLIS) {
+		return (us_ticker_read() - lastTime) / 1000;
+		}
+	else return us_ticker_read() - lastTime;
+	}
+
+uint32_t Tickers::remaining() {
+	if (mode == MILLIS) {
+		return timer / 1000 - elapsed();
+		}
+	else return timer - elapsed();
 	}
 
 status_t Tickers::state() {

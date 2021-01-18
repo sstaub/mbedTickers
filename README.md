@@ -1,7 +1,12 @@
-# mbed Tickers Library v2
+# mbed Tickers Library v3
 
 The **mbed Tickers Library** allows you to create easily Ticker callbacks, which can call a function in a predetermined interval. You can change the number of repeats of the callbacks, if repeats is 0 the ticker runs in endless mode. Works like a "thread", where a secondary function will run when necessary. The library use no interupts of the hardware timers and works with the ```us_ticker_read()``` function. You are not (really) limited in the number of Tickers.
 The internal resolution is microseconds, this works with intervals up to 70 minutes. The library works similar as the Arduino Ticker library https://github.com/sstaub/Ticker and is different to the mbed Ticker / Timer libraries.
+
+## New in v3
+- added remaining() function
+- method to get interval time
+- functional support for callbacks
 
 ## New in v2
 
@@ -188,7 +193,7 @@ timer.stop();
 void Tickers::update()
 ```
 
-Must to be called in the main while() loop, it will check the Ticker, and if necessary, will run the callback
+Must to be called in the main while() loop, it will check the Ticker, and if necessary, will run the callback.
 
 **Example**
 
@@ -198,7 +203,7 @@ while(1) {
 1.   }
 ```
 
-### Ticker Interval Time
+### Ticker set Interval Time
 
 ```cpp
 void Tickers::interval(uint32_t timer)
@@ -213,6 +218,21 @@ Changes the interval time of the Ticker. Depending from the mode it can millis o
 
 ```cpp
 timer.interval(500); // new interval time
+```
+
+### Ticker get Interval Time
+
+```cpp
+uint32_t Tickers::interval()
+```
+
+Changes the interval time of the Ticker. Depending from the mode it can millis or micro seconds.
+
+**Example**
+
+```cpp
+uint32_t intervalTime;
+intervalTime = timer.interval(); // get the interval time
 ```
 
 ### Ticker State
@@ -236,13 +256,28 @@ status = timer.state();
 uint32_t Tickers::elapsed()
 ```
 
-Returns the time passed since the last tick in us.
+Returns the time passed since the last tick in ms or us depending on mode.
 
 **Example**
 
 ```cpp
 uint32_t elapse;
 elapse = timer.elapsed();
+```
+
+### Ticker Remaining Time
+
+```cpp
+uint32_t Tickers::remaining()
+```
+
+Returns the remaining time to the next tick in ms or us depending on mode.
+
+**Example**
+
+```cpp
+uint32_t remain;
+remain = timer.remaining();
 ```
 
 ### Ticker Counter
