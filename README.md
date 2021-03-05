@@ -119,7 +119,9 @@ Creates a Ticker object
 **Example**
 
 ```cpp
-Tickers timer(blink, 1000); // calls function blink() every second
+Tickers timer(blink, 1000); // calls function blink() every second, endless runng
+Tickers timer(blink, 1000, 5); // calls function blink() every second, only 5 repeats
+Tickers timer(blink, 1000, 0, MICROS); // calls function blink() every second with internal resolution us, endless running
 ```
 
 ### Destructor

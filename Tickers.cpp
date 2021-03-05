@@ -41,7 +41,7 @@ void Tickers::start() {
 	if (callback == NULL) return;
 	lastTime = us_ticker_read();
 	enabled = true;
-	counts = 0;
+	counts = 0xFFFFFFF0;
 	status = RUNNING;
 	}
 
@@ -105,7 +105,7 @@ bool Tickers::tick() {
 	if (!enabled)	return false;
 	if ((us_ticker_read() - lastTime) >= timer) {
 		lastTime = us_ticker_read();
-		if (repeats - counts == 1) enabled = false;
+		if (repeats - counts == 1 && counts != 0xFFFFFFFF) enabled = false;
 		counts++;	
 		return true;
 		}
