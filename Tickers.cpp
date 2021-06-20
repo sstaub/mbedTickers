@@ -87,10 +87,7 @@ uint32_t Tickers::elapsed() {
 	}
 
 uint32_t Tickers::remaining() {
-	if (mode == MILLIS) {
-		return timer / 1000 - elapsed();
-		}
-	else return timer - elapsed();
+	return timer - elapsed();
 	}
 
 status_t Tickers::state() {
